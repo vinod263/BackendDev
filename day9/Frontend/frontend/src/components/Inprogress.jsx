@@ -1,0 +1,41 @@
+import React from 'react'
+
+const Inprogress = ({ tasks, onDragStart, onDragOver, onDrop, onDelete }) => {
+  return (
+    <div 
+      className="inprogress-window"
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+    >
+      <h2>⚙️ In Progress</h2>
+      <div className="tasks-list">
+        {tasks.length === 0 ? (
+          <p className="empty-state">Drag tasks here to start working</p>
+        ) : (
+          tasks.map((task) => (
+            <div 
+              key={task.id} 
+              className="task-card"
+              draggable
+              onDragStart={(e) => onDragStart(e, task, 'inprogress')}
+            >
+              <div className="task-content">
+                <h3>{task.title}</h3>
+                <span className="task-time">{task.createdAt}</span>
+              </div>
+              <button 
+                className="delete-btn"
+                onClick={() => onDelete(task.id)}
+                title="Delete task"
+              >
+                ✕
+              </button>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default Inprogress
