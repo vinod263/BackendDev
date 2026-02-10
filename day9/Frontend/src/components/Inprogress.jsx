@@ -15,7 +15,7 @@ const Inprogress = ({ tasks, onDragStart, onDragOver, onDrop, onDelete }) => {
           tasks.map((task) => (
             <div 
               key={task.id} 
-              className="task-card"
+              className="task-card "
               draggable
               onDragStart={(e) => onDragStart(e, task, 'inprogress')}
             >

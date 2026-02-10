@@ -3,47 +3,47 @@ import Nav from './components/Nav'
 import Task from './components/Task'
 import Inprogress from './components/Inprogress'
 import Complete from './components/Complete'
+import axios from 'axios';
 
 const App = () => {
   const [tasks, setTasks] = useState([])
   const [inProgress, setInProgress] = useState([])
   const [completed, setCompleted] = useState([])
   const [newTaskTitle, setNewTaskTitle] = useState('')
-
-  // Load from localStorage on mount
+ 
+  function fetchNotes() {
+      axios.get('http://localhost:3000/api/notes')
+      .then(res => {
+        const fetchedTasks = res.data.notes.map(note => ({
+          id: note._id,
+          title: note.title,
+          createdAt: new Date(note.createdAt).toLocaleString()
+        }))
+        setTasks(fetchedTasks)
+      })
+      .catch(error => {
+        console.error('Error fetching tasks:', error)
+      })
+  }
   useEffect(() => {
-    const savedTasks = localStorage.getItem('kanban_tasks')
-    const savedInProgress = localStorage.getItem('kanban_inprogress')
-    const savedCompleted = localStorage.getItem('kanban_completed')
-
-    if (savedTasks) setTasks(JSON.parse(savedTasks))
-    if (savedInProgress) setInProgress(JSON.parse(savedInProgress))
-    if (savedCompleted) setCompleted(JSON.parse(savedCompleted))
+    fetchNotes()
   }, [])
 
-  // Save to localStorage whenever tasks change
-  useEffect(() => {
-    localStorage.setItem('kanban_tasks', JSON.stringify(tasks))
-  }, [tasks])
-
-  useEffect(() => {
-    localStorage.setItem('kanban_inprogress', JSON.stringify(inProgress))
-  }, [inProgress])
-
-  useEffect(() => {
-    localStorage.setItem('kanban_completed', JSON.stringify(completed))
-  }, [completed])
-
   const addTask = (title) => {
-    if (title.trim()) {
-      const newTask = {
-        id: Date.now(),
-        title: title,
-        createdAt: new Date().toLocaleString()
-      }
-      setTasks([...tasks, newTask])
-      setNewTaskTitle('')
-    }
+    if (!title.trim()) return
+
+    axios.post('http://localhost:3000/api/notes', { title })
+      .then(res => {
+        const note = res.data.note
+        const newTask = {
+          id: note._id,
+          title: note.title,
+          createdAt: new Date(note.createdAt).toLocaleString()
+        }
+        setTasks(prev => [...prev, newTask])
+        setNewTaskTitle('')
+      })
+      .catch(err => console.error('Error adding task:', err))
   }
 
   const deleteTask = (id, column) => {
@@ -71,12 +71,15 @@ const App = () => {
   const handleDragOver = (e) => {
     e.preventDefault()
     e.dataTransfer.dropEffect = 'move'
+   
+
   }
 
   const handleDrop = (e, targetColumn) => {
     e.preventDefault()
     const task = JSON.parse(e.dataTransfer.getData('task'))
     const sourceColumn = e.dataTransfer.getData('source')
+    
 
     if (sourceColumn === targetColumn) return
 

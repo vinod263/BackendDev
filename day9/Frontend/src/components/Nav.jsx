@@ -14,7 +14,7 @@ const Nav = ({ onAddTask, newTaskTitle, setNewTaskTitle }) => {
 
   return (
     <nav>
-      <h1>📋 Task Manager</h1>
+      <h1>📋 Task Look</h1>
       <div className="nav-input-container">
         <input
           type="text"

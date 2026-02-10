@@ -33,7 +33,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 2rem;
+  padding: 0.5rem 2rem;
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -41,9 +41,12 @@ nav {
 }
 
 nav h1 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  letter-spacing: 1px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  box-shadow: 5px 2px 20px rgba(96, 28, 207, 0.377) inset;
+  border-radius: 10px;
+  padding: 0.2rem 0.5rem;
 }
 
 nav button {
@@ -250,7 +253,7 @@ nav button:active {
 
 .task-card:active {
   cursor: grabbing;
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 .task-card.completed {
@@ -260,6 +263,26 @@ nav button:active {
 .task-card.completed h3 {
   text-decoration: line-through;
   opacity: 0.7;
+}
+.task-card.completed button{
+  background-color: #5ca85c;
+  color: white;
+  font-weight: 600;
+}
+.task-card.completed button:hover{
+  border-color: rgba(68, 255, 99, 0.8);
+  color: whitesmoke;
+  box-shadow: 0 2px 8px rgba(152, 245, 175, 0.3);
+}
+.inprogress-window button{
+  background-color: #389e9e;
+  color: white;
+  font-weight: 600;
+}
+.inprogress-window button:hover{
+  border-color: rgba(68, 227, 255, 0.8);
+  color: whitesmoke;
+  box-shadow: 0 2px 8px rgba(152, 245, 175, 0.3);
 }
 
 /* Task Content */
@@ -289,9 +312,9 @@ nav button:active {
 
 /* Delete Button */
 .delete-btn {
-  background: rgba(255, 68, 68, 0.3);
-  border: 1px solid rgba(255, 68, 68, 0.5);
-  color: #ff9999;
+  background: rgba(255, 68, 68, 0.616);
+  border: 1px solid rgba(255, 255, 255, 0);
+  color: white;
   width: 28px;
   height: 28px;
   border-radius: 4px;
@@ -304,12 +327,7 @@ nav button:active {
   flex-shrink: 0;
 }
 
-.delete-btn:hover {
-  background: rgba(255, 68, 68, 0.6);
-  border-color: rgba(255, 68, 68, 0.8);
-  color: #ff4444;
-  box-shadow: 0 2px 8px rgba(255, 68, 68, 0.3);
-}
+
 
 .delete-btn:active {
   transform: scale(0.95);

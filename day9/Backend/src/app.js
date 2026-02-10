@@ -1,7 +1,16 @@
 const express = require('express');
 const noteModel = require('./models/note.model');
+const cors = require('cors');
 const app = express();
+
+// Allow requests from your React app's origin
+const corsOptions = {
+    origin: 'http://localhost:5173', // Replace with your actual React app URL (Vite default)
+    credentials: true // If you need to send cookies
+};
+
 app.use(express.json());
+app.use(cors(corsOptions)); // Enable CORS for all routes
 
 app.post('/api/notes',async (req, res) => {
     const {title,description} = req.body;
@@ -41,8 +50,8 @@ app.delete('/api/notes/:id', async (req, res) => {
  */
 app.patch('/api/notes/:id', async (req, res) => {
     const id = req.params.id
-    const {description} = req.body
-    const updatedNote = await noteModel.findByIdAndUpdate(id, {description}, {new: true})
+    const {title} = req.body
+    const updatedNote = await noteModel.findByIdAndUpdate(id, {title}, {new: true})
     res.status(200).json({
         message: "Note updated successfully.",
         updatedNote
