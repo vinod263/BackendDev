@@ -1,11 +1,11 @@
 ==> Authentication
-    => register  =>{1. user ka data save karna 2. token create karna}
-    =>login
+    => register  =>{1. user ka data save karna 2. token create karna}   ✅
+    =>login                                                                                    ✅
     =>logout (token blacklisting)
     =>otp based register
 
 
-==>Post
+==>Post   
     => create
     => can see the feed
     =>like posts (type collection)
@@ -15,11 +15,18 @@
     =>followers
     =>following
 
-
+[userModel]
 user :{
     username : String,
     email : String,
     password : String,
     bio: String,
     profilepic : "http.."
+}
+
+post:{
+    caption : String,
+    img_url : String,
+    user : userId,
+    createdAt : Data-time,
 }
