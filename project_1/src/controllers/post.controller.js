@@ -1,7 +1,7 @@
 const postModel = require("../models/post.model");
 const ImageKit = require("@imagekit/nodejs");
 const { toFile } = require("@imagekit/nodejs");
-const jwt = require("jsonwebtoken");
+
 
 async function createPostController(req, res) {
   console.log(req.body, req.file);
@@ -10,23 +10,6 @@ async function createPostController(req, res) {
     privateKey: process.env["IMAGEKIT_PRIVATE_KEY"], // This is the default and can be omitted
   });
 
-  const token = req.cookies.token;
-  if (!token) {
-    return res.status(401).json({
-      message: "Token is not provided , Unauthorized access",
-    });
-  }
-
-  let decoded=null;
-  try {
-     decoded = jwt.verify(token, process.env.JWT_SECRET);
-  } catch (error) {
-    return res.status(401).json({
-      message: "User not authorized",
-    });
-  }
-
-  console.log(decoded);
 
   const file = await client.files.upload({
     file: await toFile(Buffer.from(req.file.buffer), "file"),
@@ -37,7 +20,7 @@ async function createPostController(req, res) {
   const post = await postModel.create({
     caption: req.body.caption,
     imgUrl: file.url,
-    user: decoded.id,
+    user: req.user.id,
   });
   res.status(201).json({
     message: "post created",
@@ -45,33 +28,49 @@ async function createPostController(req, res) {
   });
 }
 
-async function getPostController(req,res){
-  const token = req.cookies.token;
-  if(!token){
-    return res.status(401).json({
-      message:"Token is not provided , Unauthorized access"
-    })
-  }
-  
-  let decoded;
- try {
-   decoded = jwt.verify(token,process.env.JWT_SECRET)
- } catch (error) {
-  return res.status(401).json({
-    message:"Unauthorized access",
-  })
- }
-const user =decoded.id;
- const post = await postModel.find({user})
+async function getPostController(req, res) {
+ 
+  const userId = req.user.id;
+  const posts = await postModel.find({
+    user: userId,
+  });
 
-  
   res.status(200).json({
-    message:"post gets",
-    post
-  })
+    message: "post fatched Successfully",
+    posts,
+  });
+}
+
+async function getPostDetailsController(req, res) {
+
+
+  const userId = req.user.id;
+  const postId = req.params.postId;
+
+  const post = await postModel.findById(postId);
+
+  if (!post) {
+    return res.status(404).json({
+      message: "data not found.",
+    });
+  }
+
+  const isValidUser = post.user.toString() === userId;
+
+  if (!isValidUser) {
+    return res.status(403).json({
+      message: "Forbidden Content.",
+    });
+  }
+
+  res.status(200).json({
+    message: "Post fetched successfully.",
+    post,
+  });
 }
 
 module.exports = {
   createPostController,
-  getPostController
+  getPostController,
+  getPostDetailsController,
 };
