@@ -12,8 +12,9 @@ const postRouter = express.Router()
 postRouter.post("/",upload.single("image"),postController.createPostController)
 
 /**
- * 
+ *  /api/posts/
  */
+postRouter.get("/",postController.getPostController)
 
 
 module.exports =postRouter

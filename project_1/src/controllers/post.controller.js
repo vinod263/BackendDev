@@ -45,9 +45,33 @@ async function createPostController(req, res) {
   });
 }
 
+async function getPostController(req,res){
+  const token = req.cookies.token;
+  if(!token){
+    return res.status(401).json({
+      message:"Token is not provided , Unauthorized access"
+    })
+  }
+  
+  let decoded;
+ try {
+   decoded = jwt.verify(token,process.env.JWT_SECRET)
+ } catch (error) {
+  return res.status(401).json({
+    message:"Unauthorized access",
+  })
+ }
+const user =decoded.id;
+ const post = await postModel.find({user})
 
+  
+  res.status(200).json({
+    message:"post gets",
+    post
+  })
+}
 
 module.exports = {
   createPostController,
-
+  getPostController
 };
