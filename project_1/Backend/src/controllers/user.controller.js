@@ -87,7 +87,7 @@ async function rejectFollowRequest(req, res) {
     const follow = await followModel.findOneAndDelete(
      { follower: followerUsername, followee: followeeUsername }, // filter
       { status: "rejected" },
-      { returnDocument: "after" }, // ✅ replaces { new: true }
+      { returnDocument: "after" }
     );
 
     if (!follow) {
