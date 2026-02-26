@@ -64,7 +64,7 @@ async function registerController(req, res)  {
 }
 
 async function  loginController(req, res)  {
-  const { email, username, password } = req.body;
+  const { identifier, password } = req.body;
 
   /**
    * username& Password;
@@ -72,8 +72,8 @@ async function  loginController(req, res)  {
    */
   const user = await userModel.findOne({
     $or: [
-        { username: username }, 
-        { email: email }],
+        { username:identifier }, 
+        { email: identifier }],
   });
 
   if (!user) {

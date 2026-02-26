@@ -1,0 +1,150 @@
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+
+  background: linear-gradient(
+    135deg,
+    #5f2c82,
+    #a044ff,
+    #ff5f6d
+  );
+}
+
+.register-card {
+  width: 100%;
+  max-width: 360px;
+  padding: 40px;
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+
+  text-align: center;
+  color: white;
+
+  .logo {
+    font-size: 40px;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    input {
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 14px;
+
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.65);
+      }
+
+      &:focus {
+        outline: none;
+        background: rgba(255, 255, 255, 0.28);
+      }
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+
+      background: linear-gradient(
+        135deg,
+        #feda75,
+        #fa7e1e,
+        #d62976,
+        #962fbf
+      );
+
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:hover {
+        transform: translateY(-1px);
+      }
+    }
+  }
+
+  .divider {
+    margin: 22px 0;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+
+    &::before,
+    &::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    span {
+      margin: 0 10px;
+    }
+  }
+
+  .login-text {
+    font-size: 14px;
+
+    span {
+      color: #feda75;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  }
+}
+
+/* ✅ Tablet */
+@media (max-width: 768px) {
+  .register-card {
+    padding: 32px;
+
+    .logo {
+      font-size: 36px;
+    }
+  }
+}
+
+/* ✅ Mobile */
+@media (max-width: 480px) {
+  .register-card {
+    padding: 24px;
+    border-radius: 14px;
+
+    .logo {
+      font-size: 32px;
+    }
+
+    form {
+      gap: 12px;
+
+      input {
+        padding: 11px;
+      }
+
+      button {
+        padding: 11px;
+      }
+    }
+  }
+}
