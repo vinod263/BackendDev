@@ -13,6 +13,84 @@
   );
 }
 
+/* 🔥 STORIES SECTION */
+
+.stories {
+  width: 100%;
+  max-width: 470px;
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 16px;
+  margin-bottom: 20px;
+
+  background: white;
+  border: 1px solid #dbdbdb;
+  border-radius: 10px;
+
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.story {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  min-width: 70px;
+
+  span {
+    font-size: 12px;
+    margin-top: 6px;
+  }
+  .add-btn {
+ border-radius: 50%;
+ background-color: white;
+ padding: 1px 2px;
+ position: relative;
+ bottom: 18px;
+ left: 20px;
+ display: none;
+}
+
+}
+.story:first-child .add-btn {
+  display: flex;
+}
+
+.story-avatar {
+
+  
+  width: 66px;
+  height: 66px;
+  padding: 3px;
+  border-radius: 50%;
+
+  /* Instagram gradient ring */
+  background: linear-gradient(
+    45deg,
+    #feda75,
+    #fa7e1e,
+    #d62976,
+    #962fbf
+  );
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid white;
+  }
+  
+}
+
 .post {
   width: 100%;
   max-width: 470px;

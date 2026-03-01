@@ -5,10 +5,12 @@ const cors = require('cors')
 const app = express();
 app.use(express.json())
 app.use(cookieparser())
+
 app.use(cors({
-    credentials: true,
-    origin: "http://localhost:5173"
-}))
+  origin: "http://localhost:5173", // must match frontend
+  credentials: true                // allow cookies/headers
+}));
+
 
 /* require routes */
 const authRouter = require('./routes/auth.routes')

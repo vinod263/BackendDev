@@ -1,30 +1,49 @@
+const crypto =require("crypto");
 const postModel = require("../models/post.model");
 const ImageKit = require("@imagekit/nodejs");
 const { toFile } = require("@imagekit/nodejs");
 const likeModel = require("../models/like.model");
 
 async function createPostController(req, res) {
-  console.log(req.body, req.file);
+  try {
+    console.log(req.body, req.file);
+    // Step 1: Generate hash of image buffer
+    const hash = crypto
+      .createHash("sha256")
+      .update(req.file.buffer)
+      .digest("hex");
 
-  const client = new ImageKit({
-    privateKey: process.env["IMAGEKIT_PRIVATE_KEY"], // This is the default and can be omitted
-  });
+    // Step 2: Check if hash already exists in DB
+    const existingPost = await postModel.findOne({ imgHash: hash });
+    if (existingPost) {
+      return res.status(400).json({ message: "Duplicate image detected" });
+    }
 
-  const file = await client.files.upload({
-    file: await toFile(Buffer.from(req.file.buffer), "file"),
-    fileName: req.file.originalname,
-    folder: "/insta_clone",
-  });
+    // Step 3: Upload to ImageKit
+    const client = new ImageKit({
+      privateKey: process.env["IMAGEKIT_PRIVATE_KEY"], // This is the default and can be omitted
+    });
 
-  const post = await postModel.create({
-    caption: req.body.caption,
-    imgUrl: file.url,
-    user: req.user.id,
-  });
-  res.status(201).json({
-    message: "post created",
-    post,
-  });
+    const file = await client.files.upload({
+      file: await toFile(Buffer.from(req.file.buffer), "file"),
+      fileName: req.file.originalname,
+      folder: "/insta_clone",
+    });
+
+    const post = await postModel.create({
+      caption: req.body.caption,
+      imgUrl: file.url,
+      imgHash: hash,
+      user: req.user.id,
+    });
+    res.status(201).json({
+      message: "post created",
+      post,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
 }
 
 async function getPostController(req, res) {

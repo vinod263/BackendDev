@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../style/form.scss";
-import axios from "axios"
+
 const Register = () => {
   const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
@@ -8,24 +8,7 @@ const Register = () => {
 
   async function handleSubmit(e) {
     e.preventDefault()  
-try {
- await axios.post("http://localhost:3000/api/auth/register", {
-      username,
-      email,
-      password
-    },{
-      withCredentials:true
-    })
-      alert("Registration successful!");
-    // optionally redirect or clear form here
 
-} catch (error) {
-  if (error.response?.status === 409) {
-    alert("This email is already registered. Please log in instead.");
-  } else {
-    alert("Something went wrong. Try again.");
-  }
-}
   }
 
   return (

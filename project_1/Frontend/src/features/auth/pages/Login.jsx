@@ -17,26 +17,7 @@ const Login = () => {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    try {
-      await axios.post("http://localhost:3000/api/auth/login", {
-        identifier: formData.identifier,
-        password: formData.password
-      }, {
-        withCredentials: true
-      })
-      alert("login successful!");
-      // optionally redirect or clear form here
 
-    } catch (error) {
-      if (error.response?.status === 409) {
-        alert("User not found.");
-      } else if (error.response?.status === 401) {
-        alert("Password invalid")
-      }
-      else {
-        alert("Something went wrong. Try again.");
-      }
-    }
   }
 
   return (
