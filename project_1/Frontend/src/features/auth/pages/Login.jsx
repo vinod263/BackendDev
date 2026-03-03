@@ -1,23 +1,39 @@
 import React, { useState } from "react";
 import "../style/form.scss";
-import axios from "axios";
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from 'react-router';
 
 const Login = () => {
+  const { user, loading, handleLogin } = useAuth()
+
   const [formData, setFormData] = useState({
     identifier: "",
     password: "",
   });
 
+  const navigate = useNavigate();
+
+  if (loading) {
+    return (
+      <main>
+        <h1>Loading...</h1>
+      </main>
+    )
+  }
+
   const handleChange = (e) => {
     setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
+      ...formData, [e.target.name]: e.target.value,
     });
   };
 
   async function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
+    await handleLogin(formData.identifier, formData.password).then(res => {
+        console.log(res)
+        navigate("/")
+      })
   }
 
   return (
@@ -44,7 +60,7 @@ const Login = () => {
             required
           />
 
-          <button type="submit">Log In</button>
+          <button className="button primary-button" type="submit">Log In</button>
         </form>
 
         <div className="divider">
@@ -56,7 +72,8 @@ const Login = () => {
         </p>
 
         <p className="login-text">
-          Don't have an account? <span>Sign up</span>
+          Don't have an account? <span onClick={() => navigate("/register")}
+          >Sign up</span>
         </p>
       </div>
     </div>

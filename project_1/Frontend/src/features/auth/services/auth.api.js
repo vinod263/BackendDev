@@ -18,23 +18,17 @@ export async function register(username, email, password) {
   }
 }
 
-export async function login(email, password) {
+export async function login(identifier, password) {
         try {
-      await axios.post("/login", {
-        identifier: formData.identifier,
-        password: formData.password
+     const response= await  api.post("/login", {
+        identifier: identifier,
+        password: password
       })
-      alert("login successful!");
+
+      return response.data
       // optionally redirect or clear form here
     } catch (error) {
-      if (error.response?.status === 409) {
-        alert("User not found.");
-      } else if (error.response?.status === 401) {
-        alert("Password invalid")
-      }
-      else {
-        alert("Something went wrong. Try again.");
-      }
+      throw error
     }
 }
 
@@ -48,3 +42,5 @@ export async function getMe() {
     }
     
 }
+
+//API layer

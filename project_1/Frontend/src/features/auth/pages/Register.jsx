@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import "../style/form.scss";
-
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router";
 const Register = () => {
+  const { user, loading, handleRegister } = useAuth()
+
   const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const navigate =useNavigate()
 
   async function handleSubmit(e) {
-    e.preventDefault()  
-
+    e.preventDefault()
+   await handleRegister(username, email, password)
+      navigate('/')
+  }
+  if(loading){
+    return ( <main><h1>Loading...</h1></main>)
   }
 
   return (
@@ -56,7 +64,7 @@ const Register = () => {
         </div>
 
         <p className="login-text">
-          Have an account? <span>Log in</span>
+          Have an account? <span  onClick={() => navigate("/login")} >Log in</span>
         </p>
       </div>
     </div>

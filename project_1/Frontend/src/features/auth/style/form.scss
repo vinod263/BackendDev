@@ -1,16 +1,17 @@
+main{
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .register-page {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px;
-
-  background: linear-gradient(
-    135deg,
-    #5f2c82,
-    #a044ff,
-    #ff5f6d
-  );
+  background: linear-gradient( 135deg,#5f2c82,#a044ff,#ff5f6d);
 }
 
 .register-card {
@@ -39,6 +40,7 @@
     display: flex;
     flex-direction: column;
     gap: 14px;
+    margin-top: 5px;
 
     input {
       padding: 12px;
@@ -60,19 +62,11 @@
     }
 
     button {
-      margin-top: 10px;
+      margin-top: 8px;
       padding: 12px;
       border-radius: 10px;
       border: none;
-
-      background: linear-gradient(
-        135deg,
-        #feda75,
-        #fa7e1e,
-        #d62976,
-        #962fbf
-      );
-
+      background: linear-gradient(135deg,#feda75,#fa7e1e,#d62976,#962fbf);
       color: white;
       font-weight: 600;
       cursor: pointer;
@@ -80,6 +74,9 @@
 
       &:hover {
         transform: translateY(-1px);
+      }
+      &:active{
+        scale: 0.95;
       }
     }
   }
@@ -89,7 +86,7 @@
     display: flex;
     align-items: center;
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.572);
 
     &::before,
     &::after {
