@@ -1,15 +1,17 @@
-import React from "react";
+import React,{useEffect} from "react";
 import "../style/feed.scss";
+import { usePost } from "../hooks/usePost";
 
 
-const stories = [
-  { id: 1, username: "your_story", avatar: "https://i.pravatar.cc/60?img=10" },
-  { id: 2, username: "john", avatar: "https://i.pravatar.cc/60?img=11" },
-  { id: 3, username: "alex", avatar: "https://i.pravatar.cc/60?img=12" },
-  { id: 4, username: "sarah", avatar: "https://i.pravatar.cc/60?img=13" },
-  { id: 5, username: "mike", avatar: "https://i.pravatar.cc/60?img=14" },
-  { id: 6, username: "emma", avatar: "https://i.pravatar.cc/60?img=15" },
-];
+
+// const stories = [
+//   { id: 1, username: "your_story", avatar: "https://i.pravatar.cc/60?img=10" },
+//   { id: 2, username: "john", avatar: "https://i.pravatar.cc/60?img=11" },
+//   { id: 3, username: "alex", avatar: "https://i.pravatar.cc/60?img=12" },
+//   { id: 4, username: "sarah", avatar: "https://i.pravatar.cc/60?img=13" },
+//   { id: 5, username: "mike", avatar: "https://i.pravatar.cc/60?img=14" },
+//   { id: 6, username: "emma", avatar: "https://i.pravatar.cc/60?img=15" },
+// ];
 
 const posts = [
   {
@@ -19,38 +21,28 @@ const posts = [
     image: "https://picsum.photos/500/500?random=1",
     likes: 1,
     caption: "Enjoying the beautiful sunset 🌅",
-  },
-  {
-    id: 2,
-    username: "test2",
-    avatar: "https://i.pravatar.cc/40?img=2",
-    image: "https://picsum.photos/500/500?random=2",
-    likes: 1,
-    caption: "Travel diaries ✈️",
-  },
-  {
-    id: 3,
-    username: "test3",
-    avatar: "https://i.pravatar.cc/40?img=3",
-    image: "https://picsum.photos/500/500?random=3",
-    likes: 0,
-    caption: "Travel diaries ✈️",
-  },
-  {
-    id: 4,
-    username: "test4",
-    avatar: "https://i.pravatar.cc/40?img=4",
-    image: "https://picsum.photos/500/500?random=4",
-    likes: 0,
-    caption: "Travel diaries ✈️",
-  },
+  }
 ];
 
 const Feed = () => {
+
+  const {feed, handleGetFeed,loading} = usePost()
+  useEffect(()=>{
+    handleGetFeed()
+  },[])
+
+  if(loading||!feed){
+    return (
+      <main><h1>Feed is loading...</h1></main>
+    )
+  }
+
+  console.log(feed)
+
   return (
     <div className="feed">
       
-      {/* 🔥 STORIES SECTION */}
+      {/* 🔥 STORIES SECTION
       <div className="stories">
         {stories.map((story) => (
           <div className="story" key={story.id}>
@@ -62,34 +54,36 @@ const Feed = () => {
             <span>{story.username}</span>
           </div>
         ))}
-      </div>
+      </div> */}
 
 
-      {posts.map((post) => (
-        <div className="post" key={post.id}>
+      {feed.map((post) => (
+             <div className="post" key={post._id}>
           
           {/* Header */}
-          <div className="post-header">
+           <div className="post-header">
             <div className="user-info">
-              <img src={post.avatar} alt="" />
-              <span>{post.username}</span>
+              <div className="img-wrapper">
+              <img src={post.user.profileImage} alt="" />
+              </div>
+              <span>{post.user.username}</span>
             </div>
             <span className="dots">•••</span>
           </div>
 
           {/* Post Image */}
           <div className="post-image">
-            <img src={post.image} alt="" />
+            <img src={post.imgUrl} alt="" />
           </div>
 
           {/* Actions */}
           <div className="post-actions">
             <div className="left-actions">
-              <span>❤️</span>
-              <span>💬</span>
-              <span>📤</span>
+              <button>❤️</button>
+              <button>💬</button>
+              <button>📤</button>
             </div>
-            <span>🔖</span>
+            <button>🔖</button>
           </div>
 
           {/* Likes */}
@@ -104,6 +98,7 @@ const Feed = () => {
           </div>
 
         </div>
+ 
       ))}
     </div>
   );
