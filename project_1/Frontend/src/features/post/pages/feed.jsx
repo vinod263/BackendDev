@@ -1,9 +1,8 @@
-import React,{useEffect} from "react";
+import React,{useEffect, useState} from "react";
 import "../style/feed.scss";
 import { usePost } from "../hooks/usePost";
-
-
-
+import Nav from "../../shared/Components/NAv";
+import { formatTimeAgo } from "../../../utils/timeFormatter";
 // const stories = [
 //   { id: 1, username: "your_story", avatar: "https://i.pravatar.cc/60?img=10" },
 //   { id: 2, username: "john", avatar: "https://i.pravatar.cc/60?img=11" },
@@ -12,24 +11,23 @@ import { usePost } from "../hooks/usePost";
 //   { id: 5, username: "mike", avatar: "https://i.pravatar.cc/60?img=14" },
 //   { id: 6, username: "emma", avatar: "https://i.pravatar.cc/60?img=15" },
 // ];
-
-const posts = [
-  {
-    id: 1,
-    username: "test1",
-    avatar: "https://i.pravatar.cc/40?img=1",
-    image: "https://picsum.photos/500/500?random=1",
-    likes: 1,
-    caption: "Enjoying the beautiful sunset 🌅",
-  }
-];
-
 const Feed = () => {
 
-  const {feed, handleGetFeed,loading} = usePost()
+  const {feed, handleGetFeed,loading,handleLike,handleUnLike} = usePost()
+  const [, setRefresh] = useState(0);
+
   useEffect(()=>{
     handleGetFeed()
   },[])
+
+  // Auto-refresh timestamps every minute
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRefresh(prev => prev + 1);
+    }, 60000); // Update every 60 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   if(loading||!feed){
     return (
@@ -41,7 +39,7 @@ const Feed = () => {
 
   return (
     <div className="feed">
-      
+      <Nav/>
       {/* 🔥 STORIES SECTION
       <div className="stories">
         {stories.map((story) => (
@@ -66,7 +64,10 @@ const Feed = () => {
               <div className="img-wrapper">
               <img src={post.user.profileImage} alt="" />
               </div>
-              <span>{post.user.username}</span>
+              <div className="user-details">
+                <span className="username">{post.user.username}</span>
+                <span className="timestamp">{formatTimeAgo(post.createdAt)}</span>
+              </div>
             </div>
             <span className="dots">•••</span>
           </div>
@@ -79,7 +80,11 @@ const Feed = () => {
           {/* Actions */}
           <div className="post-actions">
             <div className="left-actions">
-              <button>❤️</button>
+              <button 
+              className={post.isLiked?"Like":"" }
+              onClick={()=>{post.isLiked?handleUnLike(post._id):handleLike(post._id)}}
+              >{post.isLiked?"❤️":"🩶" }
+              </button>
               <button>💬</button>
               <button>📤</button>
             </div>
@@ -88,7 +93,7 @@ const Feed = () => {
 
           {/* Likes */}
           <div className="post-likes">
-            <span>{post.likes} likes</span>
+            <span>{post.likesCount} likes</span>
           </div>
 
           {/* Caption */}

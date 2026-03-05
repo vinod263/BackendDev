@@ -1,4 +1,4 @@
-const crypto =require("crypto");
+const crypto = require("crypto");
 const postModel = require("../models/post.model");
 const ImageKit = require("@imagekit/nodejs");
 const { toFile } = require("@imagekit/nodejs");
@@ -105,18 +105,60 @@ async function likepostController(req, res) {
     like,
   });
 }
-async function getFeedController(req,res) {
-  const posts =await postModel.find().populate("user","-password")
-  
-  res.status(200).json({
-    message:"All posts fetched successfully.",
-    posts
+async function unlikepostController(req, res) {
+  const username = req.user.username;
+  const postId = req.params.postId;
+
+  const isLiked = await likeModel.findOne({
+    post:postId,
+    user:username
   })
+  if(!isLiked){
+    return res.status(400).json({
+      message: "Post did't like"
+    })
+  }
+
+  await likeModel.findByIdAndDelete({_id: isLiked._id})
+
+  return res.status(200).json({
+    message:"Post unLiked successfully."
+  })
+
+}
+async function getFeedController(req, res) {
+  const user = req.user;
+  const posts = await Promise.all(
+    (await postModel.find().populate("user", "-password").lean()).map(
+      async (post) => {
+        const isLiked = await likeModel.findOne({
+          user: user.username,
+          post: post._id,
+        });
+        const likesCount = await likeModel.countDocuments({
+          post: post._id,
+        });
+        post.isLiked = !!isLiked;
+
+        return {
+          ...post,
+          isLiked: !!isLiked,
+          likesCount,
+        };
+      },
+    ),
+  );
+
+  res.status(200).json({
+    message: "All posts fetched successfully.",
+    posts,
+  });
 }
 module.exports = {
   createPostController,
   getPostController,
   getPostDetailsController,
   likepostController,
-  getFeedController
+  unlikepostController,
+  getFeedController,
 };

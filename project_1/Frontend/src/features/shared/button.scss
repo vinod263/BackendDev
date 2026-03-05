@@ -1,19 +1,28 @@
 .button{
-    border : none;
+    border: none;
     outline: none;
-    padding-inline: 1rem;
-    padding-block: 0.5rem;
-    border-radius: 1rem;
+    padding-inline: 1.05rem;
+    padding-block: 0.65rem;
+    border-radius: 1.5rem;
     cursor: pointer;
-    transition:all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
-   & .primary-button{
+    &.primary-button{
+        background: linear-gradient(45deg, #b8054f 40%, #ff005d 20%,#b8054f 40%);
+        color: rgb(255, 245, 236);
 
-        background: #b8054f;
-        color: rgb(255,245,236);
-    }
+        &:hover{
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(184, 5, 79, 0.3);
+        }
 
-    & :active{
-        transform: scale(0.95);
+        &:active{
+            transform: scale(0.98);
+            box-shadow: 0 2px 4px rgba(184, 5, 79, 0.2);
+        }
     }
 }
