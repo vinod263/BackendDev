@@ -9,7 +9,7 @@ app.use(morgan("dev"))
 
 app.use(cors({
   credentials: true ,               // allow cookies/headers
-  origin: "http://localhost:5173", // must match frontend
+  origin: "http://localhost:5173" // must match frontend
 }));
 
 
