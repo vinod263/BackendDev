@@ -1,7 +1,7 @@
 import React,{useEffect, useState} from "react";
 import "../style/feed.scss";
 import { usePost } from "../hooks/usePost";
-import Nav from "../../shared/Components/NAv";
+import Nav from "../../shared/Components/Nav";
 import { formatTimeAgo } from "../../../utils/timeFormatter";
 // const stories = [
 //   { id: 1, username: "your_story", avatar: "https://i.pravatar.cc/60?img=10" },
