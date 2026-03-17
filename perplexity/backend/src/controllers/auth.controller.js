@@ -1,12 +1,12 @@
-import userModel from "../src/models/user.model.js";
+import userModel from "../models/user.model.js";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
+import { sendEmail } from "../services/mail.service.js";
 
 /**
  * Register a new user
  * Validates input, checks for existing user, hashes password, and creates new user
  */
-export async function register(req, res) {
+async function register(req, res) {
   try {
     const { username, email, password } = req.body;
 
@@ -25,24 +25,28 @@ export async function register(req, res) {
       });
     }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create new user
-    const newUser = new userModel({
+    const newUser = await userModel.create({
       username,
       email,
-      password: hashedPassword,
+      password   // hash password is store with help of userMOdel fmiddleware file
     });
 
     const savedUser = await newUser.save();
-
-    // Generate JWT token
-    const token = jwt.sign(
-      { userId: savedUser._id, email: savedUser.email },
-      process.env.JWT_SECRET || "your-secret-key",
-      { expiresIn: "7d" }
+    await sendEmail(
+   {  to: email,
+     subject: "Welcome to Our App!",
+     html: `<h1>Welcome, ${username}!</h1><p>Thank you for registering at our app. We're excited to have you on board!</p>`}
     );
+
+
+    // // Generate JWT token
+    // const token = jwt.sign(
+    //   { userId: savedUser._id, email: savedUser.email },
+    //   process.env.JWT_SECRET || "your-secret-key",
+    //   { expiresIn: "7d" }
+    // );
 
     // Return success response (don't send password)
     res.status(201).json({
@@ -53,7 +57,8 @@ export async function register(req, res) {
         username: savedUser.username,
         email: savedUser.email,
       },
-      token,
+    
+      // token,
     });
   } catch (error) {
     console.error("Registration error:", error);
@@ -64,3 +69,5 @@ export async function register(req, res) {
     });
   }
 }
+
+export default {register}
