@@ -1,0 +1,96 @@
+Email sent: {
+  accepted: [ 'gayarivinod263@gmail.com' ],
+  rejected: [],
+  ehlo: [
+    'SIZE 35882577',
+    '8BITMIME',
+    'AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH',
+    'ENHANCEDSTATUSCODES',
+    'PIPELINING',
+    'CHUNKING',
+    'SMTPUTF8'
+  ],
+  envelopeTime: 1113,
+  messageTime: 1124,
+  messageSize: 947,
+  response: '250 2.0.0 OK  1773866405 d9443c01a7336-2b06e5ef727sm33541055ad.54 - gsmtp',
+  envelope: { from: 'gayari00777@gmail.com', to: [ 'gayarivinod263@gmail.com' ] },
+  messageId: '<2ad682ab-9cdb-07a9-f407-0d5bcc50ed19@gmail.com>'
+}
+{
+  messages: [
+    HumanMessage {
+      "id": "45bc561e-5707-4c50-9bad-d36975a24c75",
+      "content": "send an email to gayarivinod263@gmail.com,subject is  test mail sevice in agent ignore mail,body :compose body by your self it contain the nodemailer some points",
+      "additional_kwargs": {},
+      "response_metadata": {}
+    },
+    AIMessageChunk {
+      "id": "4b99a4b0-7dfe-436c-b564-8294f47f28a0",
+      "content": "",
+      "name": "model",
+      "additional_kwargs": {},
+      "response_metadata": {
+        "estimatedTokenUsage": {},
+        "prompt": 0,
+        "completion": 0
+      },
+      "tool_calls": [
+        {
+          "name": "emailTool",
+          "args": {
+            "to": "gayarivinod263@gmail.com",
+            "subject": "test mail service in agent ignore mail",  
+            "html": "<p>Dear User,</p><br/><p>This is a test email sent using the Nodemailer service integrated with the agent.</p><br/><p><strong>Key Points:</strong></p><ul><li><strong>Nodemailer:</strong> A popular Node.js module for sending emails.</li><li><strong>Purpose:</strong> To test the email service functionality.</li><li><strong>Features:</strong> Supports both text and HTML emails, attachments, and various transport methods (SMTP, sendmail, etc.).</li><li><strong>Integration:</strong> This email was sent automatically through the agent's email tool.</li></ul><br/><p>Best regards,<br/>Your Agent Team</p>"
+          },
+          "id": "NBj20oekX",
+          "type": "tool_call"
+        }
+      ],
+      "tool_call_chunks": [
+        {
+          "name": "emailTool",
+          "args": "{\"to\": \"gayarivinod263@gmail.com\", \"subject\": \"test mail service in agent ignore mail\", \"html\": \"<p>Dear User,</p><br/><p>This is a test email sent using the Nodemailer service integrated with the agent.</p><br/><p><strong>Key Points:</strong></p><ul><li><strong>Nodemailer:</strong> A popular Node.js module for sending emails.</li><li><strong>Purpose:</strong> To test the email service functionality.</li><li><strong>Features:</strong> Supports both text and HTML emails, attachments, and various transport methods (SMTP, sendmail, etc.).</li><li><strong>Integration:</strong> This email was sent automatically through the agent's email tool.</li></ul><br/><p>Best regards,<br/>Your Agent Team</p>\"}",
+          "id": "NBj20oekX",
+          "index": 0,
+          "type": "tool_call_chunk"
+        }
+      ],
+      "invalid_tool_calls": [],
+      "usage_metadata": {
+        "input_tokens": 203,
+        "output_tokens": 198,
+        "total_tokens": 401
+      }
+    },
+    ToolMessage {
+      "id": "92373ee0-e7ca-470c-93cb-fee70e8fdec0",
+      "content": "Email sent successfully To gayarivinod263@gmail.com",
+      "name": "emailTool",
+      "additional_kwargs": {},
+      "response_metadata": {},
+      "tool_call_id": "NBj20oekX"
+    },
+    AIMessageChunk {
+      "id": "eec4778e-7d52-4947-823e-797dd3855da7",
+      "content": "The email has been sent successfully to **gayarivinod263@gmail.com** with the subject **\"test mail service in agent ignore mail\"**.",
+      "name": "model",
+      "additional_kwargs": {},
+      "response_metadata": {
+        "estimatedTokenUsage": {},
+        "prompt": 0,
+        "completion": 0
+      },
+      "tool_calls": [],
+      "tool_call_chunks": [],
+      "invalid_tool_calls": [],
+      "usage_metadata": {
+        "input_tokens": 417,
+        "output_tokens": 33,
+        "total_tokens": 450,
+        "input_token_details": {},
+        "output_token_details": {}
+      }
+    }
+  ]
+}
