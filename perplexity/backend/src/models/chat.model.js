@@ -11,7 +11,7 @@ const chatSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide a chat title'],
       trim: true,
-      maxlength: [100, 'Title cannot exceed 100 characters'],
+      // maxlength: [100, 'Title cannot exceed 100 characters'],
     },
   },
   {

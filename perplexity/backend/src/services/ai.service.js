@@ -10,7 +10,7 @@ const mistralaiModel = new ChatMistralAI({
   apiKey: process.env.MISTRAL_API_KEY,
 })
 
-export async function generteResponse(messages) {
+export async function generateResponse(messages) {
   const response = await geminimodel.invoke(messages.map(msg => {
     if (msg.role == "user") {
       return new HumanMessage(msg.content);
@@ -23,7 +23,7 @@ export async function generteResponse(messages) {
   return response.text;
 }
 
-export async function generteChatTitle(message) {
+export async function generateChatTitle(message) {
   const response = await mistralaiModel.invoke([
     new SystemMessage(`You are a helpful assistant that generates concise and descriptive titles for conversations. 
       The title should capture the essence of the conversation in a few words.

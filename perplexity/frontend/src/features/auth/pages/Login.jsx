@@ -10,7 +10,7 @@ const Login = () => {
 
   const user = useSelector(state => state.auth.user)
   const loading = useSelector(state => state.auth.loading)
-  const error = useSelector(state => state.auth.loading)
+  const error = useSelector(state => state.auth.error)
 
   const { handleLogin } = useAuth()
 
